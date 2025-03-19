@@ -1,1 +1,1 @@
-Testando commit
+Resolvendo conflitos e atualizando com as mudanças remotas
