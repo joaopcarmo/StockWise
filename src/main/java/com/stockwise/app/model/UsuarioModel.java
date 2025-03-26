@@ -1,7 +1,7 @@
 package com.stockwise.app.model;
 
 
-import com.stockwise.app.dto.FornecedorDto;
+import com.stockwise.app.dto.UsuarioDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "fornecedor")
-public class FornecedorModel {
+@Table(name = "usuario")
+public class UsuarioModel {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -27,33 +27,33 @@ public class FornecedorModel {
     @NotNull
     private String endereco;
 
-    public FornecedorModel() {
+    public UsuarioModel() {
     }
 
-    public FornecedorModel(String nome, String telefone, String endereco) {
+    public UsuarioModel(String nome, String telefone, String endereco) {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
     }
 
-    public FornecedorModel(UUID id, String nome, String telefone, String endereco) {
+    public UsuarioModel(UUID id, String nome, String telefone, String endereco) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
     }
 
-    public FornecedorModel(FornecedorDto fornecedorDto) throws IllegalArgumentException {
-        if (fornecedorDto == null) {
-            throw new IllegalArgumentException("FornecedorDto não pode ser null");
+    public UsuarioModel(UsuarioDto usuarioDto) throws IllegalArgumentException {
+        if (usuarioDto == null) {
+            throw new IllegalArgumentException("UsuarioDto não pode ser null");
         }
 
-        if (fornecedorDto.getId() != null) {
-            this.id = fornecedorDto.getId();
+        if (usuarioDto.getId() != null) {
+            this.id = usuarioDto.getId();
         }
-        this.nome = fornecedorDto.getNome();
-        this.telefone = fornecedorDto.getTelefone();
-        this.endereco = fornecedorDto.getEndereco();
+        this.nome = usuarioDto.getNome();
+        this.telefone = usuarioDto.getTelefone();
+        this.endereco = usuarioDto.getEndereco();
     }
 
     public UUID getId() {
@@ -88,15 +88,15 @@ public class FornecedorModel {
         this.nome = nome;
     }
 
-    public FornecedorDto toDto(){
-        return new FornecedorDto(getId(), getNome(), getTelefone(), getEndereco());
+    public UsuarioDto toDto(){
+        return new UsuarioDto(getId(), getNome(), getTelefone(), getEndereco());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FornecedorModel that = (FornecedorModel) o;
+        UsuarioModel that = (UsuarioModel) o;
         return Objects.equals(id, that.id);
     }
 
