@@ -1,61 +1,66 @@
 # StockWise
 
-StockWise é uma aplicação para a gestão de ativos financeiros adquiridos pelos clientes de uma corretora de títulos e valores mobiliários (CTVM). A plataforma permite o cadastro, consulta e gestão de ativos como ações, fundos imobiliários, Tesouro Direto, CDB, RDB, LC, LCI, CRA, CRI, debêntures e criptoativos.
+StockWise is a financial asset management application designed for brokerage firms (CTVMs) to manage investment portfolios acquired by their clients. The platform enables the registration, consultation, and control of financial assets such as stocks, real estate funds (REITs), government bonds, CDBs, RDBs, LCs, LCIs, CRAs, CRIs, debentures, and crypto assets.
 
-## Tecnologias Utilizadas
+## 🚀 Technologies Used
 
 ### Back-end
-- **Linguagem:** Java
+- **Language:** Java
 - **Framework:** Spring Boot
-- **Padrão Arquitetural:** REST
-- **Padrões de Projeto (GoF):** Singleton, Factory Method, Repository
-- **Banco de Dados:**  MySQL
+- **Architecture:** RESTful API
+- **Design Patterns (GoF):** Singleton, Factory Method, Repository
+- **Database:** MySQL
 
 ### Front-end
-- **Linguagens:** HTML, CSS e React
+- **Languages:** HTML, CSS, React
 
-## Funcionalidades
-- Cadastro de clientes com CPF, nome, data de nascimento, agência, conta, telefone e endereço.
-- Classificação de clientes em perfis de investidor: conservador, moderado, arrojado, sofisticado e agressivo.
-- Registro de ativos financeiros com código, nome e descrição.
-- Associação de emissores, datas de início e fim a determinados ativos.
-- Emissão e gestão de notas de corretagem, contendo:
-  - Número da nota e folha
-  - Data da compra
-  - Código do ativo comprado
-  - Quantidade adquirida
-  - Cotação e valor da compra
-  - Custos envolvidos
+## ⚙️ Features
 
-## Como Executar o Projeto
+- Client registration with CPF, full name, birth date, agency, account, phone number, and address
+- Investor profile classification: conservative, moderate, bold, sophisticated, and aggressive
+- Asset registration with code, name, and description
+- Linking issuers, start and end dates to specific assets
+- Issuance and management of brokerage notes, including:
+  - Note number and page
+  - Purchase date
+  - Purchased asset code
+  - Quantity acquired
+  - Asset price and total value
+  - Involved costs (fees, taxes, etc.)
+
+## ▶️ How to Run the Project
 
 ### Back-end
-1. Clone o repositório:
-   ```sh
-   git clone https://github.com/seu-usuario/stockwise.git
-   ```
-2. Acesse o diretório do projeto:
-   ```sh
-   cd stockwise
-   ```
-3. Configure o banco de dados no arquivo `application.properties`.
-4. Compile e execute o projeto com Maven:
-   ```sh
-   mvn spring-boot:run
-   ```
+
+1. Clone the repository:
+
+    git clone https://github.com/seu-usuario/stockwise.git
+
+2. Navigate to the project directory:
+
+    cd stockwise
+
+3. Configure your database connection in `application.properties`
+
+4. Build and run the project using Maven:
+
+    mvn spring-boot:run
 
 ### Front-end
-1. Acesse o diretório `frontend`:
-   ```sh
-   cd frontend
-   ```
-2. Abra o arquivo `index.html` no navegador.
 
-## Contribuição
-Sinta-se à vontade para contribuir! Fique à vontade para abrir uma issue ou enviar um pull request.
+1. Navigate to the `frontend` directory:
 
-## Licença
-Este projeto é distribuído sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+    cd frontend
+
+2. Open the `index.html` file in your browser
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## 📝 License
+
+This project is licensed under the MIT License. See the `LICENSE` file for more information.
 
 ---
-**Desenvolvido por [João Pedro Carmo & Equipe]**
+**Developed by [João Pedro Carmo & Team]**
