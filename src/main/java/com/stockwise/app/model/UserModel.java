@@ -35,26 +35,32 @@ public class UserModel {
     private String senha;
 
     @NotNull
+    private boolean admin = false;
+
+
+    @NotNull
     private String endereco;
 
     public UserModel() {
     }
 
-    public UserModel(String nome, String telefone, String endereco, String email, String senha) {
+    public UserModel(String nome, String telefone, String endereco, String email, String senha, boolean admin) {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
+        this.admin = admin;
     }
 
-    public UserModel(UUID id, String nome, String telefone, String endereco,String email, String senha) {
+    public UserModel(UUID id, String nome, String telefone, String endereco,String email, String senha, boolean admin) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
+        this.admin = admin;
     }
 
     public UserModel(UserDto userDto) throws IllegalArgumentException {
@@ -70,6 +76,7 @@ public class UserModel {
         this.endereco = userDto.getEndereco();
         this.email = userDto.getEmail();
         this.senha = userDto.getSenha();
+        this.admin = userDto.isAdmin();
     }
 
     public UUID getId() {
@@ -117,8 +124,16 @@ public class UserModel {
         this.senha = senha;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public UserDto toDto(){
-        return new UserDto(getId(), getNome(), getTelefone(), getEndereco(),getEmail(),null);
+        return new UserDto(getId(), getNome(), getTelefone(), getEndereco(),getEmail(),getSenha(),isAdmin());
     }
 
     @Override

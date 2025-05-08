@@ -42,16 +42,27 @@ public class UserDto {
     @JsonIgnore
     private String senha;
 
+    private boolean admin = false;
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public UserDto() {
     }
 
-    public UserDto(UUID id, String nome, String telefone, String endereco, String email, String senha) {
+    public UserDto(UUID id, String nome, String telefone, String endereco, String email, String senha, boolean admin) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
+        this.admin = admin;
     }
 
     public UserDto(UserModel userModel) throws IllegalArgumentException {
@@ -112,7 +123,7 @@ public class UserDto {
 
     public UserModel toModel() {
         if (id == null){
-            return new UserModel(getNome(), getTelefone(), getEndereco(), getEmail(), getSenha());
+            return new UserModel(getNome(), getTelefone(), getEndereco(), getEmail(), getSenha(),isAdmin());
         }
         return new UserModel(this);
     }

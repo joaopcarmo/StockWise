@@ -2,6 +2,7 @@ package com.stockwise.app.controllers;
 
 import com.stockwise.app.dto.LoginDto;
 import com.stockwise.app.dto.AuthResponseDto;
+import com.stockwise.app.model.UserModel;
 import com.stockwise.app.security.jwt.JwtTokenProvider;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.generateToken(authentication);
+        UserModel user = (UserModel) authentication.getPrincipal();
+        String token = jwtTokenProvider.generateToken(user);
 
         return ResponseEntity.ok(new AuthResponseDto(token));
     }
