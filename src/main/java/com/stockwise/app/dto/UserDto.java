@@ -1,6 +1,6 @@
 package com.stockwise.app.dto;
 
-import com.stockwise.app.model.UsuarioModel;
+import com.stockwise.app.model.UserModel;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 
-public class UsuarioDto {
+public class UserDto {
     /*
      * Quando um fornecedor é criado, o ID é gerado automaticamente.
      * Quando um fornecedor é lido, atualizado ou excluído, o ID é
@@ -28,21 +28,21 @@ public class UsuarioDto {
 
     private String endereco;
 
-    public UsuarioDto() {
+    public UserDto() {
     }
 
-    public UsuarioDto(UUID id, String nome, String telefone, String endereco) {
+    public UserDto(UUID id, String nome, String telefone, String endereco) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
     }
 
-    public UsuarioDto(UsuarioModel usuarioModel) throws IllegalArgumentException {
-        if (usuarioModel == null) {
+    public UserDto(UserModel userModel) throws IllegalArgumentException {
+        if (userModel == null) {
             throw new IllegalArgumentException("UsuarioModel não pode ser null");
         }
-        BeanUtils.copyProperties(usuarioModel, this);
+        BeanUtils.copyProperties(userModel, this);
     }
 
     public String getNome() {
@@ -77,10 +77,10 @@ public class UsuarioDto {
         this.endereco = endereco;
     }
 
-    public UsuarioModel toModel() {
+    public UserModel toModel() {
         if (id == null){
-            return new UsuarioModel(getNome(), getTelefone(), getEndereco());
+            return new UserModel(getNome(), getTelefone(), getEndereco());
         }
-        return new UsuarioModel(this);
+        return new UserModel(this);
     }
 }
