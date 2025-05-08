@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.stockwise.app.dto.UserDto;
 import com.stockwise.app.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/usuarios")
+@SecurityRequirement(name = "bearerAuth") // Requer JWT
 public class UserController {
 
     @Autowired

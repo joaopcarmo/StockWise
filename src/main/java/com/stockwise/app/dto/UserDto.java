@@ -1,12 +1,11 @@
 package com.stockwise.app.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stockwise.app.model.UserModel;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 import java.util.UUID;
 
-import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.BeanUtils;
 
 public class UserDto {
@@ -15,6 +14,7 @@ public class UserDto {
      * Quando um fornecedor é lido, atualizado ou excluído, o ID é
      * enviado na requisição para identificar o fornecedor.
      */
+    @Null(message = "O ID deve ser nulo na criação")
     private UUID id;
 
     @NotNull
@@ -24,6 +24,7 @@ public class UserDto {
     @NotNull
     @NotBlank
     @Pattern(regexp = "\\d{10,11}", message = "Telefone deve conter 10 ou 11 dígitos")
+
     private String telefone;
     @NotNull
     @NotBlank
@@ -35,7 +36,10 @@ public class UserDto {
     private String email;
 
     @NotNull
-    @NotBlank
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 8, message = "A senha deve ter no mínimo 8 caracteres")
+    @Pattern(regexp = ".*\\d.*", message = "A senha deve conter pelo menos um número")
+    @JsonIgnore
     private String senha;
 
     public UserDto() {
