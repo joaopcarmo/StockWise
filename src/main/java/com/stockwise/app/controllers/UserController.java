@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.stockwise.app.dto.UserDto;
 import com.stockwise.app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(@RequestBody @Valid UserDto userDto) {
         return userService.save(userDto);
     }

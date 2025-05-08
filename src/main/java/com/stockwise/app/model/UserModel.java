@@ -3,6 +3,7 @@ package com.stockwise.app.model;
 
 import com.stockwise.app.dto.UserDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
@@ -17,7 +18,7 @@ public class UserModel {
     private UUID id;
 
     @NotNull
-    @Column(unique = true)
+    @Column
     private String nome;
 
     @NotNull
@@ -25,22 +26,35 @@ public class UserModel {
     private String telefone;
 
     @NotNull
+    @NotBlank
+    @Column(unique = true)
+    private String email;
+
+    @NotNull
+    @NotBlank
+    private String senha;
+
+    @NotNull
     private String endereco;
 
     public UserModel() {
     }
 
-    public UserModel(String nome, String telefone, String endereco) {
+    public UserModel(String nome, String telefone, String endereco, String email, String senha) {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.email = email;
+        this.senha = senha;
     }
 
-    public UserModel(UUID id, String nome, String telefone, String endereco) {
+    public UserModel(UUID id, String nome, String telefone, String endereco,String email, String senha) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.email = email;
+        this.senha = senha;
     }
 
     public UserModel(UserDto userDto) throws IllegalArgumentException {
@@ -54,6 +68,8 @@ public class UserModel {
         this.nome = userDto.getNome();
         this.telefone = userDto.getTelefone();
         this.endereco = userDto.getEndereco();
+        this.email = userDto.getEmail();
+        this.senha = userDto.getSenha();
     }
 
     public UUID getId() {
@@ -88,8 +104,21 @@ public class UserModel {
         this.nome = nome;
     }
 
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public UserDto toDto(){
-        return new UserDto(getId(), getNome(), getTelefone(), getEndereco());
+        return new UserDto(getId(), getNome(), getTelefone(), getEndereco(),getEmail(),null);
     }
 
     @Override

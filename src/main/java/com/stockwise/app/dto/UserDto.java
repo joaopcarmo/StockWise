@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.BeanUtils;
 
 public class UserDto {
@@ -22,20 +23,31 @@ public class UserDto {
 
     @NotNull
     @NotBlank
+    @Pattern(regexp = "\\d{10,11}", message = "Telefone deve conter 10 ou 11 dígitos")
     private String telefone;
     @NotNull
     @NotBlank
 
     private String endereco;
 
+    @NotNull
+    @NotBlank
+    private String email;
+
+    @NotNull
+    @NotBlank
+    private String senha;
+
     public UserDto() {
     }
 
-    public UserDto(UUID id, String nome, String telefone, String endereco) {
+    public UserDto(UUID id, String nome, String telefone, String endereco, String email, String senha) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.email = email;
+        this.senha = senha;
     }
 
     public UserDto(UserModel userModel) throws IllegalArgumentException {
@@ -43,6 +55,7 @@ public class UserDto {
             throw new IllegalArgumentException("UsuarioModel não pode ser null");
         }
         BeanUtils.copyProperties(userModel, this);
+        this.senha = null;
     }
 
     public String getNome() {
@@ -77,9 +90,25 @@ public class UserDto {
         this.endereco = endereco;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public UserModel toModel() {
         if (id == null){
-            return new UserModel(getNome(), getTelefone(), getEndereco());
+            return new UserModel(getNome(), getTelefone(), getEndereco(), getEmail(), getSenha());
         }
         return new UserModel(this);
     }
