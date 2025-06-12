@@ -1,6 +1,7 @@
 package com.stockwise.app.security.jwt;
 
 import com.stockwise.app.model.UserModel;
+import com.stockwise.app.dto.UserDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +34,20 @@ public class JwtTokenProvider {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public String generateTokenFromUserDto(UserDto userDto) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+
+        return Jwts.builder()
+                .setSubject(userDto.getEmail())  // Usa o e-mail do UserDto
+                .claim("admin", userDto.isAdmin())  // Usa a flag "admin" do UserDto
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
 
     // Recupera o e-mail do token
     public String getEmailFromToken(String token) {

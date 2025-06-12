@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -24,6 +25,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    private static final String[] PUBLIC_PATHS = {
+            "/auth", "/auth/", "/auth/login", "/auth/encode",
+            "/usuarios", "/v3/api-docs", "/swagger-ui", "/swagger-ui.html",
+            "/swagger-resources", "/webjars", "/h2-console"
+    };
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -31,8 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // Ignora o filtro para rotas públicas (como login)
-        if (path.startsWith("/auth")) {
+        // Ignorar autenticação para caminhos públicos
+        if (Arrays.stream(PUBLIC_PATHS).anyMatch(path::startsWith)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -63,4 +70,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 }
-
