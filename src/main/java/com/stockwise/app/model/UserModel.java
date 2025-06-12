@@ -1,18 +1,16 @@
 package com.stockwise.app.model;
 
-
 import com.stockwise.app.dto.UserDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "usuario")
 public class UserModel {
-
     @Id
     @GeneratedValue(generator = "UUID")
     private UUID id;
@@ -37,37 +35,39 @@ public class UserModel {
     @NotNull
     private boolean admin = false;
 
-
     @NotNull
     private String endereco;
 
-    public UserModel() {
-    }
+    @NotNull
+    private Date dataNascimento;
 
-    public UserModel(String nome, String telefone, String endereco, String email, String senha, boolean admin) {
+    public UserModel() {}
+
+    public UserModel(String nome, String telefone, String endereco, String email, String senha, Date dataNascimento, boolean admin) {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
+        this.dataNascimento = dataNascimento;
         this.admin = admin;
     }
 
-    public UserModel(UUID id, String nome, String telefone, String endereco,String email, String senha, boolean admin) {
+    public UserModel(UUID id, String nome, String telefone, String endereco, String email, String senha, Date dataNascimento, boolean admin) {
         this.id = id;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
         this.senha = senha;
+        this.dataNascimento = dataNascimento;
         this.admin = admin;
     }
 
-    public UserModel(UserDto userDto) throws IllegalArgumentException {
+    public UserModel(UserDto userDto) {
         if (userDto == null) {
             throw new IllegalArgumentException("UsuarioDto não pode ser null");
         }
-
         if (userDto.getId() != null) {
             this.id = userDto.getId();
         }
@@ -76,64 +76,30 @@ public class UserModel {
         this.endereco = userDto.getEndereco();
         this.email = userDto.getEmail();
         this.senha = userDto.getSenha();
+        this.dataNascimento = userDto.getDataNascimento();
         this.admin = userDto.isAdmin();
     }
 
-    public UUID getId() {
-        return id;
-    }
+    // Getters e setters
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+    public String getTelefone() { return telefone; }
+    public void setTelefone(String telefone) { this.telefone = telefone; }
+    public String getEndereco() { return endereco; }
+    public void setEndereco(String endereco) { this.endereco = endereco; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
+    public boolean isAdmin() { return admin; }
+    public void setAdmin(boolean admin) { this.admin = admin; }
+    public Date getDataNascimento() { return dataNascimento; }
+    public void setDataNascimento(Date dataNascimento) { this.dataNascimento = dataNascimento; }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    public UserDto toDto(){
-        return new UserDto(getId(), getNome(), getTelefone(), getEndereco(),getEmail(),getSenha(),isAdmin());
+    public UserDto toDto() {
+        return new UserDto(getId(), getNome(), getTelefone(), getEndereco(), getEmail(), getSenha(), getDataNascimento(), isAdmin());
     }
 
     @Override

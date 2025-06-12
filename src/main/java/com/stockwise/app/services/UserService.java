@@ -14,43 +14,63 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    @Autowired
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
-    public List<UserDto> findAll(){
+    public List<UserDto> findAll() {
         return userRepository.findAll().stream().map(UserDto::new).toList();
     }
 
     @Transactional(readOnly = true)
     public UserDto findById(UUID id) {
-        return userRepository.findById(id).map(UserDto::new).orElse(null);
+        return userRepository.findById(id)
+                .map(UserDto::new)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
     }
 
     @Transactional
     public UserDto save(UserDto userDto) {
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email já registrado");
+        }
         UserModel userModel = userDto.toModel();
         userModel.setSenha(passwordEncoder.encode(userModel.getSenha()));
         return userRepository.save(userModel).toDto();
     }
 
     @Transactional
-    public UserDto update(UUID id, UserDto userDtoAtualizado){
-        UserModel userExistente = userRepository.findById(id).orElse(null);
-        if (userExistente != null) {
-            userExistente.setNome(userDtoAtualizado.getNome());
-            userExistente.setTelefone(userDtoAtualizado.getTelefone());
-            userExistente.setEndereco(userDtoAtualizado.getEndereco());
-            return userRepository.save(userExistente).toDto();
+    public UserDto update(UUID id, UserDto userDtoAtualizado) {
+        UserModel userExistente = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
+        userExistente.setNome(userDtoAtualizado.getNome());
+        userExistente.setTelefone(userDtoAtualizado.getTelefone());
+        userExistente.setEndereco(userDtoAtualizado.getEndereco());
+        // Opcional: atualizar senha se for enviada
+        if (userDtoAtualizado.getSenha() != null && !userDtoAtualizado.getSenha().isBlank()) {
+            userExistente.setSenha(passwordEncoder.encode(userDtoAtualizado.getSenha()));
         }
-        return null;
+
+        return userRepository.save(userExistente).toDto();
+    }
+
+    @Transactional(readOnly = true)
+    public UserDto login(String email, String senha) {
+        UserModel user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
+        if (!passwordEncoder.matches(senha, user.getSenha())) {
+            throw new IllegalArgumentException("Credenciais inválidas");
+        }
+
+        return user.toDto();
     }
 
     @Transactional
@@ -58,4 +78,3 @@ public class UserService {
         userRepository.deleteById(id);
     }
 }
-
