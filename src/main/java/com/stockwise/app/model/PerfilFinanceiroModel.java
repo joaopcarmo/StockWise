@@ -23,8 +23,8 @@ public class PerfilFinanceiroModel {
     @Column(nullable = false, length = 500)
     private String objetivoInvestimento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
     private UserModel usuario;
 
     public PerfilFinanceiroModel() {}

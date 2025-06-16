@@ -41,7 +41,7 @@ public class UserModel {
     @NotNull
     private Date dataNascimento;
 
-    // Relacionamento bidirecional com PerfilFinanceiro
+
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private PerfilFinanceiroModel perfilFinanceiro;
 
