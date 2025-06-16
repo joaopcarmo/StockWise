@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtTokenProvider {
@@ -21,13 +22,14 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    // Gera um token JWT contendo o e-mail e a flag de admin
+    // Gera um token JWT contendo o e-mail, ID do usuário e a flag de admin
     public String generateToken(UserModel user) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
 
         return Jwts.builder()
                 .setSubject(user.getEmail())
+                .claim("userId", user.getId().toString()) // Adiciona o ID do usuário
                 .claim("admin", user.isAdmin())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
@@ -41,6 +43,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .setSubject(userDto.getEmail())  // Usa o e-mail do UserDto
+                .claim("userId", userDto.getId().toString()) // Adiciona o ID do usuário
                 .claim("admin", userDto.isAdmin())  // Usa a flag "admin" do UserDto
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
@@ -48,10 +51,15 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-
     // Recupera o e-mail do token
     public String getEmailFromToken(String token) {
         return getClaims(token).getSubject();
+    }
+
+    // Recupera o ID do usuário do token
+    public UUID getUserIdFromToken(String token) {
+        String userIdStr = getClaims(token).get("userId", String.class);
+        return userIdStr != null ? UUID.fromString(userIdStr) : null;
     }
 
     // Recupera o valor da flag "admin" do token
