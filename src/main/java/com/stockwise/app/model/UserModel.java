@@ -41,6 +41,10 @@ public class UserModel {
     @NotNull
     private Date dataNascimento;
 
+    // Relacionamento bidirecional com PerfilFinanceiro
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private PerfilFinanceiroModel perfilFinanceiro;
+
     public UserModel() {}
 
     public UserModel(String nome, String telefone, String endereco, String email, String senha, Date dataNascimento, boolean admin) {
@@ -97,6 +101,10 @@ public class UserModel {
     public void setAdmin(boolean admin) { this.admin = admin; }
     public Date getDataNascimento() { return dataNascimento; }
     public void setDataNascimento(Date dataNascimento) { this.dataNascimento = dataNascimento; }
+
+    // Getter e setter para o perfil financeiro
+    public PerfilFinanceiroModel getPerfilFinanceiro() { return perfilFinanceiro; }
+    public void setPerfilFinanceiro(PerfilFinanceiroModel perfilFinanceiro) { this.perfilFinanceiro = perfilFinanceiro; }
 
     public UserDto toDto() {
         return new UserDto(getId(), getNome(), getTelefone(), getEndereco(), getEmail(), getSenha(), getDataNascimento(), isAdmin());
